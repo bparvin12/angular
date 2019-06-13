@@ -1,0 +1,51 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+  <div ngModelGroup="contact">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <!-- this is the template driven approach. all you need to set is ngModel and name  -->
+        <!-- template variable = #firstName="ngModel" then you pass the template variable to the change method -->
+        <input 
+          required
+          minlength="3"
+          maxlength="15"
+         
+          ngModel 
+          #firstName="ngModel"
+          name="firstName" 
+          (change)="log(firstName)" 
+          id="firstName" 
+          type="text" 
+          class="form-control"
+        >
+        <div 
+          class="alert alert-danger" 
+          *ngIf="firstName.touched && !firstName.valid"
+        >
+          <div *ngIf="firstName.errors.required">
+            First name is required. 
+          </div>
+          <div *ngIf="firstName.errors.minlength">First name should be minimum {{ firstName.errors.minlength.requiredLength }} characters</div>
+          <div *ngIf="firstName.errors.pattern">First name does not match the pattern</div>
+  
+        </div>
+      </div>
+  
+    </div>
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea id="comment" cols="30" rows="10" class="form-control"></textarea>
+  </div>
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ngModel name="isSubscribed"> Subscribe to Mailinglist
+    </label>
+  </div>
+
+  <p>
+    {{ f.value | json }}
+  </p>
+  
+  <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+
+</form>
